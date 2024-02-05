@@ -65,19 +65,6 @@ function CriarLivros() {
     Livros.push(novoLivro)
 }
 
-let condition = true
-while (condition) {
-    CriarLivros()
-    let opcao = prompt("Deseja crir mais livros? s ou n")
-    if (opcao != "s") {
-        condition = false
-    }
-}
-
-
-
-// 6 - Adicione na classe Biblioteca um método para buscar um livro específico, deve passar como parâmetro o nome do livro e exibir no console todas as informações de um livro;
-
 
 class Biblioteca {
     Nome
@@ -92,7 +79,81 @@ class Biblioteca {
         this.AcervoDeLivros = Livros
     }
 
-    BuscarLivro() {
-
+    BuscarLivro(tituloLivro) {
+        Livros.forEach(x => {
+            if (x.Titulo === tituloLivro) {
+                console.log("Título: " + x.Titulo)
+                console.log("Autor: " + x.Autor)
+                console.log("Editora: " + x.Editora)
+                console.log("Ano de Publicacao: " + x.AnoDePublicacao)
+                console.log("Disponibilidade: " + x.Disponibilidade)
+            }
+        })
     }
+
+    Emprestimo(tituloLivro) {
+        Livros.forEach(x => {
+            if (x.Titulo === tituloLivro) {
+                if (x.Disponibilidade === true) {
+                    x.Disponibilidade = false
+                    return true
+                } else {
+                    return false
+                }
+            }
+        })
+    }
+
+    Devolucao(tituloLivro) {
+        Livros.forEach(x => {
+            if (x.Titulo === tituloLivro) {
+                x.Disponibilidade = true
+            }
+        })
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let nomeBiblioteca = prompt("Insira o nome da biblioteca")
+let enderecoBiblioteca = prompt("Insira o endereço da biblioteca")
+let telefoneBiblioteca = prompt("Insira o telefone da biblioteca")
+let novaBiblioteca = new Biblioteca(nomeBiblioteca, enderecoBiblioteca, telefoneBiblioteca)
+
+let nomeLivro
+
+let condition = true
+while (condition) {
+
+    let opcao = prompt("Insira a opção desejada:  1: Criar um livro / 2:Buscar um livro pelo nome / 3: Empréstimo de um livro / 4: Devolução de um livro / 5: Encerrar o programa")
+    switch (opcao) {
+        case "1":
+            CriarLivros()
+            break;
+
+        case "2":
+            nomeLivro = prompt("Insira o titulo do livro que deseja encontrar")
+            novaBiblioteca.BuscarLivro(nomeLivro)
+            break;
+
+        case "3":
+            nomeLivro = prompt("Insira o titulo do livro que deseja emprestado")
+            Emprestimo(nomeLivro)
+            break;
+
+        case "4":
+            nomeLivro = prompt("Insira o titulo do livro que deseja devolver")
+            Devolucao(nomeLivro)
+            break;
+
+        case "5":
+            condition = false
+            break;
+        default:
+            console.log("Default")
+            condition = false
+            break;
+    }
+
+
 }
